@@ -70,6 +70,7 @@
     ]
   },
   "dependencies": {
-    "@types/google-apps-script": "^0.0.26"
+    "@types/google-apps-script": "^0.0.26",
+    "dayjs": "^1.7.4"
   }
 }
