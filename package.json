@@ -36,6 +36,7 @@
     "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
     "watch": "webpack --watch",
     "predeploy": "npm run build",
+    "open": "clasp open",
     "deploy": "clasp push"
   },
   "prettier": {
