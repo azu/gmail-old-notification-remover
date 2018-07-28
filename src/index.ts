@@ -9,7 +9,9 @@ function deleteThread(searchTargetItems: SearchTargetItem[]) {
     searchTargetItems.forEach(target => {
         const searchCondition = `${target.search} older_than:${target.expireBeforeDays}d`;
         Logger.log(`SearchCondition: ${searchCondition}`);
-        const threads = GmailApp.search(searchCondition, 0, 50);
+        // Note: Gmail's limitation
+        // moveThreadsToTrash work only in less than 100
+        const threads = GmailApp.search(searchCondition, 0, 80);
         // Gmail's thread includes newer mail than expireBeforeDays.
         // It filter by expireBeforeDays
         const filteredThreads = threads.filter(thread => {
