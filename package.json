@@ -1,0 +1,75 @@
+{
+  "name": "gmail-old-notification-remover",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/azu/gmail-old-notification-remover",
+  "bugs": {
+    "url": "https://github.com/azu/gmail-old-notification-remover/issues"
+  },
+  "license": "MIT",
+  "author": "azu",
+  "files": [
+    "bin/",
+    "lib/",
+    "src/"
+  ],
+  "main": "lib/gmail-old-notification-remover.js",
+  "types": "lib/gmail-old-notification-remover.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azu/gmail-old-notification-remover.git"
+  },
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "npm-run-all build:*",
+    "build:webpack": "webpack",
+    "build:cp": "cpx appsscript.json build/",
+    "clean": "rimraf lib/ build/",
+    "precommit": "lint-staged",
+    "postcommit": "git reset",
+    "prepublish": "npm run --if-present build",
+    "test": "mocha \"test/**/*.ts\"",
+    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
+    "watch": "webpack --watch",
+    "predeploy": "npm run build",
+    "deploy": "clasp push"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": false,
+    "tabWidth": 4
+  },
+  "devDependencies": {
+    "@google/clasp": "~1.4.0",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.5.4",
+    "cpx": "^1.5.0",
+    "cross-env": "^5.2.0",
+    "gas-webpack-plugin": "^0.3.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.2.0",
+    "mocha": "^5.2.0",
+    "npm-run-all": "^4.1.3",
+    "prettier": "^1.13.7",
+    "rimraf": "^2.6.2",
+    "ts-loader": "^4.4.2",
+    "ts-node": "^7.0.0",
+    "ts-node-test-register": "^4.0.0",
+    "typescript": "^2.9.2",
+    "webpack": "^4.16.3",
+    "webpack-cli": "^3.1.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "@types/google-apps-script": "^0.0.26"
+  }
+}
