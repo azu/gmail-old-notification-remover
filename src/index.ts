@@ -35,8 +35,8 @@ function cleanupMail() {
     const conditions: SearchTargetItem[] = [
         {
             search: "label:notification -is:starred",
-            // older than 365 days
-            expireBeforeDays: 365
+            // older than 730 days
+            expireBeforeDays: 730
         }
     ];
     // delete threads that match condition
