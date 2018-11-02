@@ -4,14 +4,14 @@ declare var global: any;
 global.cleanupMail = cleanupMail;
 
 type SearchTargetItem = { search: string; expireBeforeDays: number };
-
+const BATCH_SIZE = 100; // Process up to 100 threads at once
 function deleteThread(searchTargetItems: SearchTargetItem[]) {
     searchTargetItems.forEach(target => {
         const searchCondition = `${target.search} older_than:${target.expireBeforeDays}d`;
         Logger.log(`SearchCondition: ${searchCondition}`);
         // Note: Gmail's limitation
         // moveThreadsToTrash work only in less than 100
-        const threads = GmailApp.search(searchCondition, 0, 100);
+        const threads = GmailApp.search(searchCondition);
         // Gmail's thread includes newer mail than expireBeforeDays.
         // It filter by expireBeforeDays
         const filteredThreads = threads.filter(thread => {
@@ -23,8 +23,14 @@ function deleteThread(searchTargetItems: SearchTargetItem[]) {
         if (filteredThreads.length === 0) {
             return;
         }
-        GmailApp.moveThreadsToTrash(filteredThreads);
-        Logger.log(`Delete ${filteredThreads.length} threads`);
+        Logger.log(`Delete All ${filteredThreads.length} threads`);
+        for (let i = 0; i < threads.length; i += BATCH_SIZE) {
+            const deleteThread = filteredThreads.slice(i, i + BATCH_SIZE);
+            if (deleteThread.length > 0) {
+                GmailApp.moveThreadsToTrash(deleteThread);
+            }
+            Logger.log(`Delete ${deleteThread.length} threads`);
+        }
     });
 }
 
