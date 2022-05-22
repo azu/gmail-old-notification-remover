@@ -40,7 +40,7 @@ function cleanupMail() {
      */
     const conditions: SearchTargetItem[] = [
         {
-            search: "label:notification -is:starred",
+            search: "label:notification -is:starred -is:important",
             // older than 730 days
             expireBeforeDays: 730
         }
