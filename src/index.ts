@@ -1,4 +1,4 @@
-import dayjs = require("dayjs");
+import dayjs from "dayjs";
 
 declare var global: any;
 global.cleanupMail = cleanupMail;
@@ -6,7 +6,7 @@ global.cleanupMail = cleanupMail;
 type SearchTargetItem = { search: string; expireBeforeDays: number };
 const BATCH_SIZE = 100; // Process up to 100 threads at once
 function deleteThread(searchTargetItems: SearchTargetItem[]) {
-    searchTargetItems.forEach(target => {
+    searchTargetItems.forEach((target) => {
         const searchCondition = `${target.search} older_than:${target.expireBeforeDays}d`;
         Logger.log(`SearchCondition: ${searchCondition}`);
         // Note: Gmail's limitation
@@ -14,10 +14,10 @@ function deleteThread(searchTargetItems: SearchTargetItem[]) {
         const threads = GmailApp.search(searchCondition);
         // Gmail's thread includes newer mail than expireBeforeDays.
         // It filter by expireBeforeDays
-        const filteredThreads = threads.filter(thread => {
+        const filteredThreads = threads.filter((thread) => {
             const lastMessageDate = thread.getLastMessageDate();
             const limitDay = dayjs().subtract(target.expireBeforeDays, "day");
-            return dayjs(lastMessageDate).isBefore(limitDay);
+            return dayjs(lastMessageDate.getDate()).isBefore(limitDay);
         });
         Logger.log(`Match threads count: ${filteredThreads.length}`);
         if (filteredThreads.length === 0) {
@@ -42,8 +42,8 @@ function cleanupMail() {
         {
             search: "label:notification -is:starred -is:important",
             // older than 730 days
-            expireBeforeDays: 730
-        }
+            expireBeforeDays: 730,
+        },
     ];
     // delete threads that match condition
     deleteThread(conditions);
