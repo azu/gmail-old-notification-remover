@@ -2,10 +2,12 @@
 
 This Google App Script for removing older mails from Gmail.
 
+- Remove mails that are matched `label:notification -is:starred -is:important older_than:730d`
+
 ## Install
 
 ```
-yarn 
+yarn install
 ```
 
 ### clasp
